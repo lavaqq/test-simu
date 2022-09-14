@@ -1,13 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Personnel from "../components/Personnel.jsx";
-import Hypo from "../components/Hypo.jsx";
+import PH from "../components/PH.jsx";
+import PAT from "../components/PAT.jsx";
+import PAT_Simplified from "../components/PAT_Simplified.jsx";
 ---
 
 <Layout title="Test simulateurs">
-	<main class="flex gap-12">
-		<Personnel client:load />
-		<div class="b border-l-[1px] border-gray-400 h-auto"></div>
-		<Hypo client:load />
+	<main class="flex 2xl:flex-row flex-col gap-12">
+		<PAT client:load />
+		<div class="border-l-[1px] border-gray-400 h-auto"></div>
+		<PAT_Simplified client:load />
+		<div class="border-l-[1px] border-gray-400 h-auto"></div>
+		<PH client:load />
 	</main>
 </Layout>
