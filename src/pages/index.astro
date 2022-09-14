@@ -1,0 +1,13 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Personnel from "../components/Personnel.jsx";
+import Hypo from "../components/Hypo.jsx";
+---
+
+<Layout title="Test simulateurs">
+	<main class="flex gap-12">
+		<Personnel client:load />
+		<div class="b border-l-[1px] border-gray-400 h-auto"></div>
+		<Hypo client:load />
+	</main>
+</Layout>
