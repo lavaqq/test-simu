@@ -35,7 +35,7 @@ export default function PAT() {
     const interest = useMemo(() => getInterest(loanAmount, monthlyPayment, loanDuration), [loanAmount, monthlyPayment, loanDuration]);
     const total = useMemo(() => getTotal(loanAmount, interest), [loanAmount, interest]);
     return (
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-6 px-5'>
             <h1 className='text-xl font-bold underline'>Simulateur PAT (non-simplifié)</h1>
             <div className='grid grid-cols-2 gap-y-2 gap-x-8'>
                 <label htmlFor="loan-amount">Montant du prêt</label>
@@ -65,16 +65,14 @@ export default function PAT() {
                 <span>TAEG</span>
                 <span>{annualRate}%</span>
                 <span>Taux périodique</span>
-                <span>{periodicalRate}%</span>
-                <span>Durée de remboursement</span>
                 <span>{loanDuration} mois</span>
                 <span>Mensualité</span>
-                <span>{monthlyPayment}€/mois</span>
+                <span>{monthlyPayment.toFixed(2)}€/mois</span>
                 <span>Montant total</span>
                 <div className='flex flex-col'>
-                    <span>{total}€</span>
+                    <span>{total.toFixed(2)}€</span>
                     <span className='text-sm text-gray-500'>
-                        (dont {interest}€ d'intérêts)
+                        (dont {interest.toFixed(2)}€ d'intérêts)
                     </span>
                 </div>
             </div>

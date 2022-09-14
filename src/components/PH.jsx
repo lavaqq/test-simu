@@ -30,7 +30,7 @@ export default function Hypo() {
     const interest = useMemo(() => getInterest(loanAmount, monthlyPayment, loanDuration), [loanAmount, monthlyPayment, loanDuration]);
     const total = useMemo(() => getTotal(loanAmount, interest), [loanAmount, interest]);
     return (
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-6 px-5'>
             <h1 className='text-xl font-bold underline'>Simulateur PH</h1>
             <div className='grid grid-cols-2 gap-y-2 gap-x-8'>
                 <label htmlFor="loan-amount">Montant du prêt</label>
@@ -72,16 +72,16 @@ export default function Hypo() {
                 <span>{loanDuration} ans</span>
                 <span>Mensualité</span>
                 <div className='flex flex-col'>
-                    <span>{monthlyPayment / 12}€/mois</span>
+                    <span>{(monthlyPayment / 12).toFixed(2)}€/mois</span>
                     <span className='text-sm text-gray-500'>
-                        (soit {monthlyPayment}€ par an)
+                        (soit {monthlyPayment.toFixed(2)}€ par an)
                     </span>
                 </div>
                 <span>Montant total</span>
                 <div className='flex flex-col'>
-                    <span>{total}€</span>
+                    <span>{total.toFixed(2)}€</span>
                     <span className='text-sm text-gray-500'>
-                        (dont {interest}€ d'intérêts)
+                        (dont {interest.toFixed(2)}€ d'intérêts)
                     </span>
                 </div>
             </div>
