@@ -1,15 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PH from "../components/PH.jsx";
-import PAT from "../components/PAT.jsx";
 import PAT_Simplified from "../components/PAT_Simplified.jsx";
 ---
 
 <Layout title="Test simulateurs">
 	<main class="flex 2xl:flex-row flex-col gap-12">
-		<!-- <PAT client:load />
-		<div class="border-l-[1px] border-gray-400 h-auto 2xl:block hidden">
-		</div> -->
 		<PAT_Simplified client:load />
 		<div class="border-l-[1px] border-gray-400 h-auto 2xl:block hidden">
 		</div>
