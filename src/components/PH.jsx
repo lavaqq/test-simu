@@ -1,14 +1,19 @@
 import { useState, useMemo } from 'react';
 
-export default function Hypo() {
+export default function PAT() {
     const [loanAmount, setLoanAmount] = useState(150000);
     const [annualRate, setAnnualRate] = useState(5);
     const [loanDuration, setLoanDuration] = useState(10);
-    const getMonthlyPayment = (loanAmount, loanDuration) => {
-        return (loanAmount * annualRate / 100 / 12) / (1 - (1 + annualRate / 100 / 12) ** (-loanDuration));
+    const getPeriodicalRate = (annualRate) => {
+        return (1 + annualRate / 100) ** (1 / 12) - 1;
+    }
+    const getMonthlyPayment = (loanAmount, periodicalRate, loanDuration) => {
+        const rightLoanDuration = loanDuration * 12;
+        return loanAmount * periodicalRate * (1 + periodicalRate) ** rightLoanDuration / ((1 + periodicalRate) ** rightLoanDuration - 1);
     }
     const getInterest = (loanAmount, monthlyPayment, loanDuration) => {
-        return monthlyPayment * loanDuration - loanAmount;
+        const rightLoanDuration = loanDuration * 12;
+        return monthlyPayment * rightLoanDuration - loanAmount;
     }
     const getTotal = (loanAmount, interest) => {
         return parseFloat(loanAmount) + parseFloat(interest);
@@ -26,15 +31,16 @@ export default function Hypo() {
     const handleLoanDurationChange = (e) => {
         setLoanDuration(e.target.value);
     }
-    const monthlyPayment = useMemo(() => getMonthlyPayment(loanAmount, loanDuration), [loanAmount, loanDuration, annualRate]);
+    const periodicalRate = useMemo(() => getPeriodicalRate(annualRate), [annualRate]);
+    const monthlyPayment = useMemo(() => getMonthlyPayment(loanAmount, periodicalRate, loanDuration), [loanAmount, periodicalRate, loanDuration]);
     const interest = useMemo(() => getInterest(loanAmount, monthlyPayment, loanDuration), [loanAmount, monthlyPayment, loanDuration]);
     const total = useMemo(() => getTotal(loanAmount, interest), [loanAmount, interest]);
     return (
         <div className='flex flex-col gap-6 px-5'>
-            <h1 className='text-xl font-bold underline'>Simulateur PH</h1>
+            <h1 className='text-xl font-bold underline'>Simulateur PH (non-simplifié)</h1>
             <div className='grid grid-cols-2 gap-y-2 gap-x-8'>
                 <label htmlFor="loan-amount">Montant du prêt</label>
-                <input className="bg-gray-200 rounded-sm p-1" type="number" min="0" max="1000000" step="10000" id="loan-amount" value={loanAmount} onChange={handleLoanAmountChange} />
+                <input className="bg-gray-200 rounded-sm p-1" type="number" min="0" max="50000" step="1000" id="loan-amount" value={loanAmount} onChange={handleLoanAmountChange} />
                 <label htmlFor="annual-rate">Taux annuel</label>
                 <input className="bg-gray-200 rounded-sm p-1" type="number" min="1" max="9.99" step="0.01" id="annual-rate" value={annualRate} onChange={handleAnnualRateChange} />
                 <label htmlFor="loan-duration">Durée du prêt (en années)</label>
@@ -68,15 +74,12 @@ export default function Hypo() {
                 <span>{loanAmount}€</span>
                 <span>Le taux débiteur</span>
                 <span>{annualRate}%</span>
+                <span>Taux périodique</span>
+                <span>{periodicalRate.toFixed(3)}% (3ème décimales)</span>
                 <span>Durée de remboursement</span>
                 <span>{loanDuration} ans</span>
                 <span>Mensualité</span>
-                <div className='flex flex-col'>
-                    <span>{(monthlyPayment / 12).toFixed(2)}€/mois</span>
-                    <span className='text-sm text-gray-500'>
-                        (soit {monthlyPayment.toFixed(2)}€ par an)
-                    </span>
-                </div>
+                <span>{monthlyPayment.toFixed(2)}€/mois</span>
                 <span>Montant total</span>
                 <div className='flex flex-col'>
                     <span>{total.toFixed(2)}€</span>
