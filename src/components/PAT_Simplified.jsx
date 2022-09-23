@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 
 export default function PAT_Simplified() {
     const [loanAmount, setLoanAmount] = useState(15000);
-    const [annualRate, setAnnualRate] = useState(6.95);
+    const [annualRate, setAnnualRate] = useState(5);
     const [loanDuration, setLoanDuration] = useState(12);
     const getPeriodicalRate = (annualRate) => {
         return (annualRate / 100) / 12;
