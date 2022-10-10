@@ -1,14 +1,13 @@
 import { useState, useMemo } from 'react';
 
-export default function PAT_Simplified() {
+export default function PAT() {
     const [loanAmount, setLoanAmount] = useState(15000);
     const [annualRate, setAnnualRate] = useState(5);
     const [loanDuration, setLoanDuration] = useState(12);
     const getPeriodicalRate = (annualRate) => {
-        return (annualRate / 100) / 12;
+        return (1 + annualRate / 100) ** (1 / 12) - 1;
     }
     const getMonthlyPayment = (loanAmount, periodicalRate, loanDuration) => {
-
         return loanAmount * periodicalRate * (1 + periodicalRate) ** loanDuration / ((1 + periodicalRate) ** loanDuration - 1);
     }
     const getInterest = (loanAmount, monthlyPayment, loanDuration) => {
@@ -36,7 +35,7 @@ export default function PAT_Simplified() {
     const total = useMemo(() => getTotal(loanAmount, interest), [loanAmount, interest]);
     return (
         <div className='flex flex-col gap-6 px-5'>
-            <h1 className='text-xl font-bold underline'>Simulateur PAT (simplifié)</h1>
+            <h1 className='text-xl font-bold underline'>Simulateur PAT (non-simplifié)</h1>
             <div className='grid grid-cols-2 gap-y-2 gap-x-8'>
                 <label htmlFor="loan-amount">Montant du prêt</label>
                 <input className="bg-gray-200 rounded-sm p-1" type="number" min="0" max="50000" step="1000" id="loan-amount" value={loanAmount} onChange={handleLoanAmountChange} />
@@ -62,8 +61,8 @@ export default function PAT_Simplified() {
                 <span>{loanAmount}€</span>
                 <span>Le taux débiteur</span>
                 <span>{annualRate}%</span>
-                <span>TAEG</span>
-                <span>{annualRate}%</span>
+                <span>Taux périodique</span>
+                <span>{periodicalRate.toFixed(3)}% (3ème décimales)</span>
                 <span>Durée de remboursement</span>
                 <span>{loanDuration} mois</span>
                 <span>Mensualité</span>
